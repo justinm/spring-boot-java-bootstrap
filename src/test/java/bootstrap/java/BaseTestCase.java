@@ -1,6 +1,5 @@
 package bootstrap.java;
 
-import orchestrator.builds.Workspace;
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,19 +17,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @RunWith(SpringRunner.class)
 @TestPropertySource("classpath:application-test.properties")
 public abstract class BaseTestCase {
-  public void copyResourceDirectoryToWorkspace( Workspace workspace, String directory ) throws Exception {
-    URL module = getClass().getClassLoader().getResource( directory );
-
-    if ( module == null ) {
-      throw new Exception( "Could not location tfmodule for testing." );
-    }
-
-    FileUtils.copyDirectory( new File( module.getFile() ), new File( workspace.getPath().toString() + "/" + directory ) );
-  }
-
   public String getResourcePath( String resourcePath ) {
     try {
-      return getClass().getClassLoader().getResource( "ssh/test.key" ).getFile();
+      return getClass().getClassLoader().getResource( resourcePath ).getFile();
     } catch ( Exception e ) {
       throw new RuntimeException( "Could not determine absolute path for " + resourcePath );
     }
